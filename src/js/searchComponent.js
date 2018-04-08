@@ -11,7 +11,6 @@ class Search {
     this.addEvent();
   }
   addEvent() {
-    debugger;
     this.element.addEventListener('keydown', () => {
       if (event.key === 'Enter') {
         this.searchPlace(this.searchbox.value);

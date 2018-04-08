@@ -29,21 +29,21 @@ class YandexMap {
     this.eventBus.trigger('map:loaded');
     this.eventBus.trigger('map:centerChange', this.coordinates);
 
-    let favouritesButton = new ymaps.control.Button({
+    let favoritesButton = new ymaps.control.Button({
       data: {
-        image: '../img/favourite.png',
-        content: 'Add to favourites',
-        title: 'Add to favourites',
+        image: '../img/favorite.png',
+        content: 'Add to favorites',
+        title: 'Add to favorites',
       },
       options: {
         selectOnClick: false,
         maxWidth: [16],
       },
     });
-    favouritesButton.events.add('press', () => {
-      this.eventBus.trigger('favourites:add', this.map.getCenter());
+    favoritesButton.events.add('press', () => {
+      this.eventBus.trigger('favorites:add', this.map.getCenter());
     });
-    this.map.controls.add(favouritesButton, {
+    this.map.controls.add(favoritesButton, {
       float: 'right',
       floatIndex: 100,
     });

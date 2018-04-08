@@ -1,10 +1,15 @@
-import { getCoordinatesByName, getForecastByLatLng, getForecastByName, getInitialCoordinates } from './services';
+import {
+  getCoordinatesByName,
+  getForecastByLatLng,
+  getForecastByName,
+  getInitialCoordinates,
+} from './services';
 import { EventBus } from './eventBus';
 import { WeatherComponent } from './weatherComponent';
 import { YandexMap } from './map';
 import { HistoryComponent } from './historyComponent';
 import { Search } from './searchComponent';
-import { FavouritesComponent } from './favouritesComponent';
+import { favoritesComponent } from './favoritesComponent';
 
 let m;
 let eventBus = new EventBus();
@@ -33,23 +38,25 @@ historyContainer.className = 'historyContainer';
 let weatherContainer = document.createElement('div');
 weatherContainer.className = 'weatherContainer';
 
-let favouritesContainer = document.createElement('div');
-favouritesContainer.className = 'favouritesContainer';
+let favoritesContainer = document.createElement('div');
+favoritesContainer.className = 'favoritesContainer';
 
 root.appendChild(header);
 root.appendChild(mapContainer);
 root.appendChild(infoContainer);
 infoContainer.appendChild(historyContainer);
 infoContainer.appendChild(weatherContainer);
-infoContainer.appendChild(favouritesContainer);
+infoContainer.appendChild(favoritesContainer);
 mapContainer.appendChild(map);
 
 historyContainer.innerHTML = '<h4>History</h4>';
 weatherContainer.innerHTML = '<h4>Weather</h4>';
-favouritesContainer.innerHTML = '<h4>Favourites</h4>';
+favoritesContainer.innerHTML = '<h4>favorites</h4>';
 let forecast = new WeatherComponent(weatherContainer, eventBus);
 let history = new HistoryComponent(historyContainer, eventBus);
-let favourites = new FavouritesComponent(favouritesContainer, eventBus);
-getInitialCoordinates().then((coordinates) => (m = new YandexMap('map', ymaps, eventBus, coordinates)));
+let favorites = new favoritesComponent(favoritesContainer, eventBus);
+getInitialCoordinates().then(
+  (coordinates) => (m = new YandexMap('map', ymaps, eventBus, coordinates))
+);
 
 export { m };
