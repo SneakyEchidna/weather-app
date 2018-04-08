@@ -35,7 +35,7 @@ const getForecastByLatLng = (coordinates) =>
         },
       };
     })
-    .catch(() => console.log("Can't get forecast"));
+    .catch(() => alert("Can't get forecast"));
 
 const getForecastByName = (address) => getCoordinatesByName(address).then((coordinates) => getForecastByLatLng(coordinates));
 
