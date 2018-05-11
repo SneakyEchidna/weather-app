@@ -2,7 +2,7 @@
 
 ## Live demo
 
-http://distinct-brain.surge.sh
+https://sneaky-weather-app.firebaseapp.com/
 
 ### Description
 
