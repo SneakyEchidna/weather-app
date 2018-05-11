@@ -31,9 +31,7 @@ const getCoordinatesByName = (address) =>
 
 const getForecastByLatLng = (coordinates) =>
   fetch(
-    `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/${
-      coordinates[0]
-    },${coordinates[1]}?lang=en%26units=si`
+    `https://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/${coordinates[0]},${coordinates[1]}?units=si&lang=en`
   )
     .then((req) => req.json())
     .then((data) => {

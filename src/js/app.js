@@ -51,7 +51,7 @@ mapContainer.appendChild(map);
 
 historyContainer.innerHTML = '<h4>History</h4>';
 weatherContainer.innerHTML = '<h4>Weather</h4>';
-favoritesContainer.innerHTML = '<h4>favorites</h4>';
+favoritesContainer.innerHTML = '<h4>Favorites</h4>';
 let forecast = new WeatherComponent(weatherContainer, eventBus);
 let history = new HistoryComponent(historyContainer, eventBus);
 let favorites = new favoritesComponent(favoritesContainer, eventBus);
