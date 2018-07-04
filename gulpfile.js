@@ -48,13 +48,14 @@ let config = {
   port: 8080,
   logPrefix: 'Fozz',
 };
-gulp.task('html:build', function() {
+gulp.task('html:build', function(done) {
   gulp
     .src(path.src.html)
     .pipe(gulp.dest(path.build.html))
-    .pipe(reload({ stream: true }));
+    .pipe(reload({stream: true}));
+  done();
 });
-gulp.task('js:build', function() {
+gulp.task('js:build', function(done) {
   return browserify({
     entries: [path.src.js],
   })
@@ -67,14 +68,15 @@ gulp.task('js:build', function() {
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
-    .pipe(rename({ suffix: '.min' }))
+    .pipe(rename({suffix: '.min'}))
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(path.build.js))
-    .pipe(reload({ stream: true }));
+    .pipe(reload({stream: true}));
+  done();
 });
-gulp.task('style:build', function() {
+gulp.task('style:build', function(done) {
   gulp
     .src(path.src.style)
     .pipe(sourcemaps.init())
@@ -83,23 +85,25 @@ gulp.task('style:build', function() {
     .pipe(cssmin())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.build.css))
-    .pipe(reload({ stream: true }));
+    .pipe(reload({stream: true}));
+  done();
 });
-gulp.task('image:build', function() {
+gulp.task('image:build', function(done) {
   gulp
     .src(path.src.img)
     .pipe(
       imagemin({
         progressive: true,
-        svgoPlugins: [{ removeViewBox: false }],
+        svgoPlugins: [{removeViewBox: false}],
         use: [pngquant()],
         interlaced: true,
       })
     )
     .pipe(gulp.dest(path.build.img))
-    .pipe(reload({ stream: true }));
+    .pipe(reload({stream: true}));
+  done();
 });
-gulp.task('build', ['html:build', 'js:build', 'style:build', 'image:build']);
+gulp.task('build', gulp.series('html:build', 'js:build', 'style:build', 'image:build'));
 gulp.task('watch', function() {
   watch([path.watch.html], function(event, cb) {
     gulp.start('html:build');
@@ -120,4 +124,4 @@ gulp.task('webserver', function() {
 gulp.task('clean', function(cb) {
   rimraf(path.clean, cb);
 });
-gulp.task('default', ['build', 'webserver', 'watch']);
+gulp.task('default', gulp.series('build', 'webserver', 'watch'));
