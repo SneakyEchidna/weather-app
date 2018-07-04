@@ -29,7 +29,7 @@ const getCoordinatesByName = (address) =>
 
 const getForecastByLatLng = (coordinates) =>
   fetch(
-    `http://api.openweathermap.org/data/2.5/weather?` +
+    `https://api.openweathermap.org/data/2.5/weather?` +
       `lat=${coordinates[0]}&lon=${coordinates[1]}&` +
       `units=metric&APPID=97248aca315ea6cccb5cf1cab8b0771b`
   )
