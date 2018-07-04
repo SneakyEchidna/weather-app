@@ -1,10 +1,7 @@
 const getPlaceName = (coordinates) =>
   fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${
-      coordinates[0]
-    }&lon=${
-      coordinates[1]
-    }&units=metric&lang=ru&APPID=97248aca315ea6cccb5cf1cab8b0771b`
+    `https://api.openweathermap.org/data/2.5/` +
+      `forecast?lat=${coordinates[0]}&lon=${coordinates[1]}&units=metric&lang=ru&APPID=97248aca315ea6cccb5cf1cab8b0771b`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -16,7 +13,8 @@ const getPlaceName = (coordinates) =>
 
 const getCoordinatesByName = (address) =>
   fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY&language=EN`
+    `https://maps.googleapis.com/maps/api/geocode/json?` +
+      `address=${address}&key=AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY&language=EN`
   )
     .then((req) => req.json())
     .then((data) => {
@@ -31,31 +29,32 @@ const getCoordinatesByName = (address) =>
 
 const getForecastByLatLng = (coordinates) =>
   fetch(
-    `https://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/${coordinates[0]},${coordinates[1]}?units=si&lang=en`
+    `http://api.openweathermap.org/data/2.5/weather?` +
+      `lat=${coordinates[0]}&lon=${coordinates[1]}&` +
+      `units=metric&APPID=97248aca315ea6cccb5cf1cab8b0771b`
   )
     .then((req) => req.json())
     .then((data) => {
-      let forecast = JSON.parse(data.body);
-      return {
-        summary: { value: forecast.currently.summary, measurement: '' },
+      let forecast = data;
+      const forecastData = {
+        summary: { value: forecast.weather[0].description, measurement: '' },
         temperature: {
-          value: forecast.currently.temperature,
+          value: forecast.main.temp,
           measurement: 'C°',
         },
-        humidity: { value: forecast.currently.humidity, measurement: '%' },
-        pressure: { value: forecast.currently.pressure, measurement: 'hPa' },
+        humidity: { value: forecast.main.humidity, measurement: '%' },
+        pressure: { value: forecast.main.pressure, measurement: 'hPa' },
         'wind speed': {
-          value: forecast.currently.windSpeed,
+          value: forecast.wind.speed,
           measurement: 'm/s',
         },
       };
+      return forecastData;
     })
     .catch(() => alert("Can't get forecast"));
 
 const getForecastByName = (address) =>
-  getCoordinatesByName(address).then((coordinates) =>
-    getForecastByLatLng(coordinates)
-  );
+  getCoordinatesByName(address).then((coordinates) => getForecastByLatLng(coordinates));
 
 const getInitialCoordinates = () => {
   return new Promise((resolve, reject) => {
